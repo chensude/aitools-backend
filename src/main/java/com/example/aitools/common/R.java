@@ -5,32 +5,32 @@ import lombok.Data;
 @Data
 public class R<T> {
     private Integer code;
-    private String message;
+    private String msg;
     private T data;
 
-    public static <T> R<T> ok() {
-        return ok(null);
-    }
-
-    public static <T> R<T> ok(T data) {
+    public static <T> R<T> success(T data) {
         R<T> r = new R<>();
-        r.setCode(200);
-        r.setMessage("success");
-        r.setData(data);
+        r.code = 200;
+        r.msg = "success";
+        r.data = data;
         return r;
     }
 
-    public static <T> R<T> error(String message) {
+    public static <T> R<T> success() {
+        return success(null);
+    }
+
+    public static <T> R<T> error(String msg) {
         R<T> r = new R<>();
-        r.setCode(500);
-        r.setMessage(message);
+        r.code = 500;
+        r.msg = msg;
         return r;
     }
 
-    public static <T> R<T> error(Integer code, String message) {
+    public static <T> R<T> error(int code, String msg) {
         R<T> r = new R<>();
-        r.setCode(code);
-        r.setMessage(message);
+        r.code = code;
+        r.msg = msg;
         return r;
     }
 } 

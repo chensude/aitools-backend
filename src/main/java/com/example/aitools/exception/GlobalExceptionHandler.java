@@ -1,21 +1,23 @@
 package com.example.aitools.exception;
 
 import com.example.aitools.common.R;
-import org.springframework.dao.DataIntegrityViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public R<Void> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        if (e.getMessage().contains("users.uk_email")) {
-            return R.error("邮箱已被注册");
-        }
-        if (e.getMessage().contains("users.uk_username")) {
-            return R.error("用户名已被使用");
-        }
-        return R.error("数据库操作异常");
+    @ExceptionHandler(RuntimeException.class)
+    public R<String> handleRuntimeException(RuntimeException e) {
+        log.error("运行时异常", e);
+        return R.error(500, e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public R<String> handleException(Exception e) {
+        log.error("系统异常", e);
+        return R.error(500, "系统异常：" + e.getMessage());
     }
 } 
